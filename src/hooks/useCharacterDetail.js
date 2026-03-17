@@ -7,8 +7,8 @@ export const useCharacterDetail = (characterId) => {
     queryFn: async () => {
       const res = await api.get(`/character/${characterId}`); 
       console.log("Respuesta de la API:", res.data);
-      if (res.data && res.data.results) {
-        return res.data.results;
+      if (res.data) {
+        return res.data;
       }
       
       return []; 
