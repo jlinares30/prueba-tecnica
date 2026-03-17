@@ -77,7 +77,7 @@ export default function CharacterList() {
                 <button
                     onClick={() => setPage(old => Math.max(old - 1, 1))}
                     disabled={!info.prev || isLoading}
-                    className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50 hover:bg-[#97ce4c] transition-colors"
+                    className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50 cursor-pointer hover:bg-[#97ce4c] transition-colors"
                 >
                     Anterior
                 </button>
@@ -87,7 +87,7 @@ export default function CharacterList() {
                 <button
                     onClick={() => setPage(old => old + 1)}
                     disabled={!info.next || isLoading}
-                    className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50 hover:bg-[#97ce4c] transition-colors"
+                    className="px-4 py-2 bg-gray-200 rounded-lg disabled:opacity-50 cursor-pointer hover:bg-[#97ce4c] transition-colors"
                 >
                     Siguiente
                 </button>
