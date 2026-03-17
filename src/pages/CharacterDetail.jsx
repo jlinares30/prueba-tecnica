@@ -3,17 +3,23 @@ import { useForm } from "react-hook-form";
 import { noteSchema } from "../schemas/noteSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCharacterDetail } from "../hooks/useCharacterDetail";
-
+import { useInventory } from "../hooks/useInventory";
+import { useState } from "react";
 
 export default function CharacterDetail() {
     const { id } = useParams();
     const {data: character, isLoading, error} = useCharacterDetail(id);
+    const { mutate, isLoading: isSaving } = useInventory();
+    const [successMessage, setSuccessMessage] = useState("");
+    const [errorMessage, setErrorMessage] = useState("");
+    const [noteSaved, setNoteSaved] = useState("");
 
-    console.log(character);
+    //console.log(character);
 
     const {
         register,
         handleSubmit,
+        reset,
         formState: { errors, isSubmitting },
     } = useForm({
         resolver: zodResolver(noteSchema),
@@ -25,9 +31,20 @@ export default function CharacterDetail() {
                 ...data,
                 userId: id,
             };
-            const response = await axios.post("https://jsonplaceholder.typicode.com/posts", payload);
-            
-            console.log("Respuesta Exitosa:", response.data);
+            mutate(payload,{
+                onSuccess: (response) => {
+                    console.log("Nota guardada exitosamente:", response);
+                    setNoteSaved(response);
+                    setSuccessMessage("Nota guardada exitosamente.");
+                    setTimeout(() => setSuccessMessage(false), 3000);
+                },
+                onError: (error) => {
+                    console.error("Error al guardar la nota:", error);
+                    setErrorMessage("Error al guardar la nota. Por favor, inténtalo de nuevo.");
+                    setTimeout(() => setErrorMessage(false), 3000);
+                },
+            });
+            console.log("Respuesta Exitosa:", payload);
             reset();
         } catch (err) {
             console.error("Error al guardar:", err);
@@ -55,6 +72,15 @@ export default function CharacterDetail() {
                     <p className="text-gray-600"><strong>Origin:</strong> {character.origin?.name}</p>
                     <p className="text-gray-600"><strong>Location:</strong> {character.location?.name}</p>
                 </div>
+            </div>
+
+            <div>
+                {noteSaved && (
+                    <div className="bg-slate-50 p-8 rounded-2xl border-2 border-gray-300">
+                        <h3 className="text-xl font-semibold text-green-600">Última Nota Guardada:</h3>
+                        <p className="text-gray-700 bg-green-50 p-4 rounded-lg border border-green-200 mt-2">{noteSaved.title}: {noteSaved.body}</p>
+                    </div>
+                )}
             </div>
 
 
@@ -94,6 +120,16 @@ export default function CharacterDetail() {
                         {isSubmitting ? "Transmitiendo..." : "Guardar Nota en la Ciudadela"}
                     </button>
                 </form>
+                {successMessage && (
+                <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg absolute bottom-0 right-5">
+                    ✅ ¡Nota guardada con éxito!
+                </div>
+                )}
+                {errorMessage && (
+                    <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg absolute bottom-0 right-5">
+                        ❌ {errorMessage}
+                    </div>
+                )}
             </div>
         </div>
     );
