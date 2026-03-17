@@ -5,6 +5,9 @@ export const useCharacters = (searchList = "", page = 1) => {
   const { data, isLoading, error } = useQuery({
     queryKey: ["characters", searchList, page],
     queryFn: async () => {
+
+      await new Promise(resolve => setTimeout(resolve, 2000));
+
       const res = await api.get(`/character`,{
         params: {
           name: searchList,

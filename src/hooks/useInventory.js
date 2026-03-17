@@ -6,6 +6,7 @@ export const useInventory = () => {
 
   return useMutation({
     mutationFn: async (item) => {
+      await new Promise(resolve => setTimeout(resolve, 3000));
       const res = await apiMutation.post("/posts", item);
       return res.data;
     },
