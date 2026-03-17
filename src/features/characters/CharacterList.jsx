@@ -1,8 +1,8 @@
-import Card from "../components/Card";
-import Searcher from "../components/Searcher";
-import Skeleton from "../components/Skeleton";
+import Card from "../../components/Card";
+import Searcher from "../../components/Searcher";
+import Skeleton from "../../components/Skeleton";
 import { useNavigate } from "react-router-dom";
-import { useCharacters } from "../hooks/useCharacters";
+import { useCharacters } from "./useCharacters";
 import { useState } from "react";
 
 const CharacterSkeleton = () => {

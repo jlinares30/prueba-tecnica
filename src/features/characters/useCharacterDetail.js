@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import api from "../lib/api";
+import api from "../../api/rickMortyApi";
 
 export const useCharacterDetail = (characterId) => {
   const { data, isLoading, error } = useQuery({

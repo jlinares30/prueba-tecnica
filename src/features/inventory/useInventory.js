@@ -1,5 +1,5 @@
 import { useMutation, useQueryClient } from "@tanstack/react-query";
-import apiMutation from "../lib/apiMutation";
+import apiMutation from "../../api/inventoryApi";
 
 export const useInventory = () => {
   const queryClient = useQueryClient();
