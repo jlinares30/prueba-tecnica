@@ -19,8 +19,8 @@ export default function CharacterList() {
     const [search, setSearch] = useState("");
     const [page, setPage] = useState(1);
     const navigate = useNavigate();
-    const {data, isLoading, error} = useCharacters(search, page);
-
+    const {data, isLoading, isPlaceholderData, error} = useCharacters(search, page);
+    const showSkeletons = isLoading || isPlaceholderData;
     console.log(data);
 
     if (error) return <div>Error: {error.message}</div>;
@@ -44,7 +44,7 @@ export default function CharacterList() {
                 <Searcher  onChange={handleSearch} />
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-                {isLoading ? (
+                {showSkeletons ? (
                 Array.from({ length: 8 }).map((_, index) => (
                     <CharacterSkeleton key={index} />
                 ))

@@ -6,12 +6,12 @@ export const useInventory = (characterId) => {
 
   const createMutation = useMutation({
     mutationFn: async (item) => {
-      await new Promise(resolve => setTimeout(resolve, 3000));
+      await new Promise(resolve => setTimeout(resolve, 2000));
       const res = await apiMutation.post("/posts", item);
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["inventory", characterId] });
     },
   });
 
@@ -21,17 +21,17 @@ export const useInventory = (characterId) => {
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["inventory", characterId] });
     },
   });
 
   const updateMutation = useMutation({
-    mutationFn: async ({ id, data }) => {
-      const res = await apiMutation.put(`/posts/${id}`, data);
+    mutationFn: async ({ id, ...updateData }) => {
+      const res = await apiMutation.put(`/posts/${id}`, updateData);
       return res.data;
     },
     onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ["inventory"] });
+      queryClient.invalidateQueries({ queryKey: ["inventory", characterId] });
     },
   });
 

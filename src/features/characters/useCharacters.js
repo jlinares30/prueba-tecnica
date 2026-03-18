@@ -1,8 +1,9 @@
 import { useQuery } from "@tanstack/react-query";
 import api from "../../api/rickMortyApi";
+import { keepPreviousData } from '@tanstack/react-query';
 
 export const useCharacters = (searchList = "", page = 1) => {
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error, isPlaceholderData } = useQuery({
     queryKey: ["characters", searchList, page],
     queryFn: async () => {
 
@@ -22,7 +23,7 @@ export const useCharacters = (searchList = "", page = 1) => {
       
       return []; 
     },
-    keepPreviousData: true,
+    placeholderData: keepPreviousData,
   });
-  return { data, isLoading, error };
+  return { data, isLoading, isPlaceholderData, error };
 };
