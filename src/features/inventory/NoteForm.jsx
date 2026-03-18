@@ -5,15 +5,22 @@ import { useForm } from "react-hook-form";
 import { noteSchema } from "../../schemas/noteSchema";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useCharacterDetail } from "../characters/useCharacterDetail";
+import Notification from "../../components/Notification";
 import Skeleton from "../../components/Skeleton";
+import Button from "../../components/Button";
+import editIcon from "../../assets/edit.png";
+import deleteIcon from "../../assets/delete.png";
+import saveIcon from "../../assets/save.png";
+import cancelIcon from "../../assets/cancel.png";
 
 
-export default function NoteForm({ characterId, onClose }) {
+export default function NoteForm() {
     const { id } = useParams();
     const {isLoading} = useCharacterDetail(id);
-    const { mutate, isPending } = useInventory();
+    const { createNote, isCreating, deleteNote, isDeleting } = useInventory();
     const [successMessage, setSuccessMessage] = useState("");
     const [errorMessage, setErrorMessage] = useState("");
+    const [editMode, setEditMode] = useState(false);
     const [noteSaved, setNoteSaved] = useState("");
 
     const {
@@ -52,15 +59,64 @@ export default function NoteForm({ characterId, onClose }) {
         //watch para contar los caracteres del textarea
         const watchBody = watch("body", ""); 
 
+
+
+        const handleEdit = () => {
+            setEditMode(true);
+        }
+
+        const handleCancel = () => {
+            setEditMode(false);
+        }
+
+        const handleSave = () => {
+            setEditMode(false);
+        }
+
+        const handleDelete = () => {
+            setNoteSaved("");
+            setSuccessMessage("Nota eliminada exitosamente.");
+            setTimeout(() => setSuccessMessage(false), 3000);
+        }
+
     return(
         <>        
-            {noteSaved && (
-                <div className="bg-slate-50 p-8 mb-6 rounded-2xl border-2 border-gray-300">
-                    <h3 className="text-xl font-semibold text-green-600">Última Nota Guardada:</h3>
-                    <p className="text-gray-700 mt-2"><span className="font-bold">Asunto:</span> {noteSaved.title}</p>
-                    <p className="text-gray-600 mt-1"><span className="font-bold">Descripción:</span> {noteSaved.body}</p>
+            {noteSaved && !editMode ? (
+                <div className="flex justify-between g-slate-50 p-8 mb-6 rounded-2xl border-2 border-gray-300">
+                    <div>
+                        <h3 className="text-xl font-semibold text-green-600">Última Nota Guardada:</h3>
+                        <p className="text-gray-700 mt-2"><span className="font-bold">Asunto:</span> {noteSaved.title}</p>
+                        <p className="text-gray-600 mt-1"><span className="font-bold">Descripción:</span> {noteSaved.body}</p>
+                    </div>
+                    <div className="flex justify-between flex-col items-center gap-4">
+                        <Button onClick={handleEdit} className={`w-16 hover:bg-gray-300 text-gray-700`}>
+                            <img src={editIcon} alt="Editar" />
+                        </Button>
+                        <Button onClick={handleDelete} className={`w-16 hover:bg-red-600 text-white`} disabled={isPending}>
+                            <img src={deleteIcon} alt="Eliminar" />
+                        </Button>
+                    </div>
                 </div>
-            )}
+            ) : (
+                <div className="flex justify-between mb-6 p-8 rounded-2xl border-2 border-dashed border-gray-300">
+                    <div>
+                        <h3 className="text-xl font-semibold text-green-600">Última Nota Guardada:</h3>
+                        <input type="text" {...register("title")} placeholder="Ej: Análisis de ADN o Objeto encontrado" className="w-full p-3 rounded-lg border border-gray-300 focus:ring-2 focus:ring-[#97ce4c] outline-none" />
+                        <p className="text-gray-700 mt-2"><span className="font-bold">Asunto:</span> {noteSaved.title}</p>
+                        <p className="text-gray-600 mt-1"><span className="font-bold">Descripción:</span> {noteSaved.body}</p>
+                    </div>
+                    <div className="flex justify-between items-center gap-4">
+                        <Button onClick={handleSave} className={`w-18  hover:bg-gray-300 text-gray-700`}>
+                            <img src={saveIcon} alt="Guardar" />                            
+                        </Button>
+                        <Button onClick={handleCancel} className={`w-18 hover:bg-red-600 text-white`}>
+                            <img src={cancelIcon} alt="Cancelar" />
+                        </Button>
+                    </div>
+                </div>
+            )
+            
+            }
 
             {isLoading ? (
                 <div className="bg-slate-50 p-8 rounded-2xl border-2 border-dashed border-gray-300 animate-pulse">
@@ -120,25 +176,18 @@ export default function NoteForm({ characterId, onClose }) {
                                 <p className="text-[#97ce4c] font-bold animate-pulse text-sm">Escaneando Dimensión...</p>
                             </div>
                     ) : (
-                    <button
-                        type="submit"
-                        className="w-full bg-[#97ce4c] hover:bg-[#86b943] text-white font-bold py-3 rounded-lg shadow-lg hover:shadow-[#97ce4c]/40 transition-all disabled:opacity-50"
-                    >
-                        Guardar Nota
-                    </button>
+                        <Button disabled={isPending} onClick={handleSubmit(onSubmit)} className={`bg-[#97ce4c] hover:bg-[#86b943] text-white w-full`}>
+                            Guardar Nota
+                        </Button>
                     )}
                 </form>
             </div>
             )}
             {successMessage && (
-            <div className="mb-4 p-4 bg-green-100 border border-green-400 text-green-700 rounded-lg fixed top-5 right-5">
-                ✅ {successMessage}
-            </div>
+                <Notification type="success" message={successMessage} />
             )}
             {errorMessage && (
-                <div className="mb-4 p-4 bg-red-100 border border-red-400 text-red-700 rounded-lg fixed top-5 right-5">
-                    ❌ {errorMessage}
-                </div>
+                <Notification type="error" message={errorMessage} />
             )}
         </>
     );
