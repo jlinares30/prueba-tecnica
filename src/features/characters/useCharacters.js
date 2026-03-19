@@ -16,7 +16,7 @@ export const useCharacters = (searchList = "", page = 1) => {
         }
       }
       ); 
-      console.log("Respuesta de la API:", res.data);
+      //console.log("Respuesta de la API:", res.data);
       if (res.data && res.data.results) {
         return res.data;
       }

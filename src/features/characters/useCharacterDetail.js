@@ -9,7 +9,7 @@ export const useCharacterDetail = (characterId) => {
       await new Promise(resolve => setTimeout(resolve, 2000));
 
       const res = await api.get(`/character/${characterId}`); 
-      console.log("Respuesta de la API:", res.data);
+      //console.log("Respuesta de la API:", res.data);
       if (res.data) {
         return res.data;
       }

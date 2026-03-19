@@ -21,7 +21,7 @@ export default function CharacterList() {
     const navigate = useNavigate();
     const {data, isLoading, isPlaceholderData, error} = useCharacters(search, page);
     const showSkeletons = isLoading || isPlaceholderData;
-    console.log(data);
+    //console.log(data);
 
     if (error) return (
             <div className="p-10 text-center">

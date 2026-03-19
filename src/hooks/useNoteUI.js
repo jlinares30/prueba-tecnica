@@ -20,16 +20,14 @@ export const useNoteUI = (id, noteSaved, setNoteSaved) => {
             };
             createNote(payload,{
                 onSuccess: (response) => {
-                    console.log("Nota guardada exitosamente:", response);
+                    //console.log("Nota guardada exitosamente:", response);
                     setNoteSaved(response);
                     showMsg("Nota guardada exitosamente.");
-                    //setTimeout(() => showMsg(false), 3000);
                     reset();
                 },
                 onError: (error) => {
-                    console.error("Error al guardar la nota:", error);
+                    //console.error("Error al guardar la nota:", error);
                     showMsg("Error al guardar la nota. Por favor, inténtalo de nuevo.", "error");
-                    //setTimeout(() => showMsg(false), 3000);
                     reset();
                 },
             });
@@ -42,17 +40,15 @@ export const useNoteUI = (id, noteSaved, setNoteSaved) => {
             };
             updateNote({id: 1, data: payload}, {
                 onSuccess: (response) => {
-                    console.log("Nota actualizada exitosamente:", response);
+                    //console.log("Nota actualizada exitosamente:", response);
                     setNoteSaved(response.data);
                     showMsg("Nota actualizada exitosamente.");
-                    //setTimeout(() => showMsg(false), 3000);
                     setEditMode(false);
                     reset();
                 },
                 onError: (error) => {
-                    console.error("Error al actualizar la nota:", error);
+                    //console.error("Error al actualizar la nota:", error);
                     showMsg("Error al actualizar la nota. Por favor, inténtalo de nuevo.", "error");
-                    //setTimeout(() => showMsg(false), 3000);
                     setEditMode(false);
                 },
             });
@@ -61,16 +57,14 @@ export const useNoteUI = (id, noteSaved, setNoteSaved) => {
         const onDelete = (reset) => {
             deleteNote(noteSaved.id, {
                 onSuccess: () => {
-                    console.log("Nota eliminada exitosamente");
+                    //console.log("Nota eliminada exitosamente");
                     setNoteSaved("");
                     showMsg("Nota eliminada exitosamente.");
-                    //setTimeout(() => showMsg(false), 3000);
                     reset();
                 },
                 onError: (error) => {
-                    console.error("Error al eliminar la nota:", error);
+                    //console.error("Error al eliminar la nota:", error);
                     showMsg("Error al eliminar la nota. Por favor, inténtalo de nuevo.", "error");
-                    //setTimeout(() => showMsg(false), 3000);
                 },
             });
         }
