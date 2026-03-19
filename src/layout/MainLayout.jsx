@@ -1,16 +1,17 @@
-import { Link, Outlet } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import Header from "../components/layout/Header";
+import Footer from "../components/layout/Footer";
 
 export default function MainLayout() {
     return (
-        <div className="container mx-auto p-4">
-            <h2 className="text-3xl font-bold mb-8">
-                <Link to="/">
-                    Rick y Morty App
-                </Link>
-            </h2>
-            <main>
-                <Outlet />
+        <div className="min-h-screen bg-[#24282f] selection:bg-[#97ce4c] selection:text-[#24282f]">
+            <Header />
+            <main className="container mx-auto px-6 py-8">
+                <div className="relative">
+                    <Outlet />
+                </div>
             </main>
+            <Footer />
         </div>
     );
 }
