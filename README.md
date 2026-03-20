@@ -38,8 +38,6 @@ La aplicación orquesta datos de dos fuentes distintas para enriquecer la experi
 * **Responsive Design:** Arquitectura móvil-primero adaptada para cualquier vista de la aplicación.
 
 ---
-
----
 ## Modularidad del Sistema / Arquitectura
 
 * El sistema esta distribuido en carpetas y archivos segun su funcion, de esta manera se separa responsabilidades, se reutiliza componentes y ayuda a la mantenibilidad futura.

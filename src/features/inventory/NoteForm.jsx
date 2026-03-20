@@ -45,18 +45,6 @@ export default function NoteForm() {
         //console.log("Estado actual de la nota:", noteSaved);
     return (
         <>
-        <SavedNoteCard
-                note={noteSaved} 
-                editMode={editMode}
-                onEdit={handleEdit}
-                onCancel={handleCancel}
-                onSave={handleSubmit((data) => onSaveEdit(data, reset))}
-                onDelete={() => onDelete(reset)}
-                register={register}
-                errors={errors}
-                watchBody={watchBody}
-            />
-
         {isLoading ? (
 
                 <div className="p-8 rounded-2xl border-2 border-dashed border-gray-300 animate-pulse">
@@ -125,6 +113,17 @@ export default function NoteForm() {
                         </form>
                     </div>
                 )}
+                <SavedNoteCard
+                    note={noteSaved} 
+                    editMode={editMode}
+                    onEdit={handleEdit}
+                    onCancel={handleCancel}
+                    onSave={handleSubmit((data) => onSaveEdit(data, reset))}
+                    onDelete={() => onDelete(reset)}
+                    register={register}
+                    errors={errors}
+                    watchBody={watchBody}
+                />
             </>
         )}
         {messages.success && (

@@ -8,7 +8,7 @@ export default function SavedNoteCard({ note, editMode, onEdit, onCancel, onSave
         if (!note) return null;
         
         return (
-        <div className={`relative p-8 mb-8 rounded-2xl border-2 transition-all duration-500 shadow-2xl ${
+        <div className={`relative p-8 my-8 rounded-2xl border-2 transition-all duration-500 shadow-2xl ${
             editMode ? 'border-[#00b0c8] bg-[#e3f9fd]' : 'border-[#97ce4c] bg-[#f7fff0]'}`}>
             {editMode ? (
                 <div className="mt-4 space-y-2 relative z-10">
